@@ -1,10 +1,18 @@
-\documentclass{article}
+% 12 pt font, maybe decide on a different font later
+\documentclass[12pt, oneside, a4paper]{book}
 
 % Package inclusions
 \usepackage{indentfirst} % Indents first paragraph in a section
+\usepackage{hyperref} % Hyperlinking and anchoring
 
-% Head matter
-\title{An Intermediate Programmer's Guide to Developing Skills}
+\hypersetup{
+   colorlinks = true,
+   urlcolor = cyan,
+   linkcolor = blue,
+   pdftitle={An Intermediate Programmer's Guide to Developing Skills},
+}
+% Front matter
+\title{A Guide to Developing Skills for an Intermediate Programmer}
 \date{2021-05-26}
 \author{Evan Hastings}
 
@@ -15,8 +23,55 @@
    \tableofcontents
    \newpage
    \pagenumbering{arabic}
-   \section{Introduction}
+   \chapter{Introduction}
       Programming as an activity is both very engaging and rewarding.
       Once you have gained the initial knowledge of programming, learning where to go from there can be difficult.
       This guide's goal is to provide you with a meaningful way to continue developing your skills on your own.
+
+      Each section addresses a separate concern or concentartion a fledling programmer might be interested in.
+      That being said, each section is standalone and they can be read and completed in any order, but it would be beneficial to read the \hyperref[chap:general]{General} section before the others.
+
+      All programming that you do can help you in any section, because the concepts are the same at their most basic.
+      For example, the \hyperref[chap:challenge]{Challenging} section will teach you how to think more algorithmically, and once you understand algorithms, the knowledge can be applied to the other topics.
+
+      Lastly, this book is intended to help further your development of skills relevant to programming.
+      It should not be used to learn the basics of programming, and it will likely seem foreign if you have not done much programming before.
+
+      Below are some concepts you should be familiar with before using this book\footnotemark.
+
+      \footnotetext{
+         A useful text for learning the prerequisite material is \href{https://beej.us/guide/bgc/}{Beej's Guide to C}.
+         You need not read the entire text, only the chapters relevant to the subject matter listed.
+      }
+      % Prerequisite knowledge to using guide
+      \begin{itemize}
+         \item Data types (variable types)
+         \item Compiled languages vs interpreted languages
+         \item Pointers
+         \item Arrays
+
+      \end{itemize}
+   \chapter{General Knowledge and Improvement}
+   \label{chap:general}
+      This chapter aims at helping you with programming in general.
+      The examples and material here will help to provide a better foundational understanding of coding.
+      % Overview of language paradigms and some examples of what they look like
+      \section{Paradigms}
+      % Overview of when certain language are best
+      \section{Language Use Cases}
+         While programming languages are typically designed to be used in a variety of situations, over time they start to develop a target domain.
+
+   \chapter{Practical Programming}
+   \label{chap:practical}
+      % Get some ideas from Al Sweisgart's 'Automate the Boring Stuff'
+      In this chapter, you will be guided through programming in a useful manner.
+      The examples used in this chapter will be useful for automating tasks at work or home.
+      They also will focus on getting data from the Web quickly.
+   \chapter{Challenging Yourself}
+      % Programming challenges and things like Project Euler or LeetCode
+      Many of the problems a programmer faces are already solved, and it is useful to know how to recognize and solve some of the simpler ones.
+      That being said, the examples in this chapter will likely difficult if you have not seen them before, but once you have solved them, they will become trivial for you in the future.
+   \label{chap:challenge}
+   \chapter{Professional Development}
+   \label{chap:prof_devel}
 \end{document}
