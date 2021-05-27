@@ -1,5 +1,5 @@
 # Intermediate Programmer's Guide
-A guide for intermediate programmers who are looking for ways to improve their skills
+A guide for intermediate programmers who are looking for ways to improve their skills.
 
 ## Building
 A LaTeX installation is required to build this project.

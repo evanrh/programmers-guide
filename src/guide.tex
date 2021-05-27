@@ -4,13 +4,21 @@
 % Package inclusions
 \usepackage{indentfirst} % Indents first paragraph in a section
 \usepackage{hyperref} % Hyperlinking and anchoring
+\usepackage[dvipsnames]{xcolor} % Better color options
+\usepackage[Bjornstrup]{fncychap} % Fancy chapter headers
 
+% Hyperlinking setup
 \hypersetup{
    colorlinks = true,
    urlcolor = cyan,
-   linkcolor = blue,
+   linkcolor = ForestGreen,
    pdftitle={An Intermediate Programmer's Guide to Developing Skills},
 }
+
+% TOC Setup
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{1}
+
 % Front matter
 \title{A Guide to Developing Skills for an Intermediate Programmer}
 \date{2021-05-26}
@@ -29,7 +37,7 @@
       Once you have gained the initial knowledge of programming, learning where to go from there can be difficult.
       This guide's goal is to provide you with a meaningful way to continue developing your skills on your own.
 
-      Each section addresses a separate concern or concentartion a fledling programmer might be interested in.
+      Each section addresses a separate concern or concentartion a fledgling programmer might be interested in.
       That being said, each section is standalone and they can be read and completed in any order, but it would be beneficial to read the \hyperref[chap:general]{General} section before the others.
 
       All programming that you do can help you in any section, because the concepts are the same at their most basic.
@@ -50,7 +58,6 @@
          \item Compiled languages vs interpreted languages
          \item Pointers
          \item Arrays
-
       \end{itemize}
    \chapter{General Knowledge and Improvement}
    \label{chap:general}

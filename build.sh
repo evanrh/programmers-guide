@@ -16,11 +16,11 @@ function Help() {
 }
 
 function build() {
-   run "pdflatex -output-directory /$OUTDIR $LOC/$INPUT"
+   run "pdflatex -output-directory /$OUTDIR $INPUT"
 }
 
 function count() {
-   run "texcount $LOC/$INPUT"
+   run "texcount $INPUT"
 }
 
 function run() {
@@ -28,6 +28,7 @@ function run() {
       -v $PWD/src/:/$LOC \
       -v $PWD/$OUTDIR:/$OUTDIR \
       -u $USERID:$GROUPID \
+      -w /$LOC \
       texlive/texlive \
       $1
 }
