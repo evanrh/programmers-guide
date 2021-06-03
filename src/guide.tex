@@ -6,6 +6,8 @@
 \usepackage{hyperref} % Hyperlinking and anchoring
 \usepackage[dvipsnames]{xcolor} % Better color options
 \usepackage[Bjornstrup]{fncychap} % Fancy chapter headers
+\usepackage{csvsimple} % CSV to table handling
+\usepackage{listings} % Sections for embedding formatted source code
 
 % MLA Citations
 \usepackage[american]{babel}
@@ -14,7 +16,8 @@
    backend=biber,
    style=mla-new,
    sorting=none,
-   natbib=true
+   natbib=true,
+   hyperref=false
 ]{biblatex}
 
 \addbibresource{refs.bib}
@@ -25,6 +28,7 @@
    urlcolor = cyan,
    linkcolor = ForestGreen,
    pdftitle={An Intermediate Programmer's Guide to Developing Skills},
+   citecolor = black
 }
 
 % TOC Setup
@@ -78,10 +82,47 @@
 
       \section{Paradigms}
       % Overview of language paradigms and some examples of what they look like
-      This citation is: \autocite{Paradigms}.
+      Programming languages follow what are known as paradigms, which are the structure for how a language is written.
+      All programming languages roughly fit into three paradigms: imperative, object-oriented, and functional \autocite{normarkOverviewFourMain}.
+
       \subsection{Imperative}
+      Most programming languages offer an imperative approach, and you've most likely used one at some point.
+      A few examples of imperative languages are: C, Python, and JavaScript.
+
+      Imperative languages treat the input source code as a sequential set of instructions that the computer will run.
+      They are also characteristic in that the program's state changes due to the passing of time \autocite{normarkOverviewFourMain}.
+      Imperative programming is what most programmers learn first, because thinking of code as a set of instructions that operate on state is a simple concept to grasp.
+
       \subsection{Object-Oriented}
+      Object-oriented languages are in major use today.
+      Some examples of languages that use an object-oriented approach are: C++, Python, and Java.
+
+      Object-oriented languages organize data and methods into 'objects' which are an encapsulation.
+      Objects interact with each other through methods that they list publicly to each other, and they are organized in hierarchies of inheritance \autocite{normarkOverviewFourMain}.
+      These restrictions on interaction and inheritance allow the programmer to hide away details from how the code actually works.
+      As a result, the designer provides methods that perform actions with observable and reasonable side effects.
+
       \subsection{Functional}
+      Functional languages see use, but they are far less used compared to the other two paradigms.
+      Examples of functional languages include: Haskell, Lisp, and JavaScript\footnotemark.
+
+      This paradigm treats code as a series of mathematical equations that are evaluated at run time.
+      Functional languages treat data as immutable, so the program's state cannot be changed as in the other paradigms \autocite{normarkOverviewFourMain}.
+      Functions are also treated like data, and they can be passed as arguments to other functions.
+
+      This approach produces code that is very safe to use, but it can take a much longer amount of time to write.
+      It also produces code that is thread-safe by nature, since the resulting program does not update state as it progresses.
+
+      \footnotetext{
+         Of these languages, only Haskell is purely functional.
+         The other languages support functional styles, but they do not restrict the user into following them.
+      }
+
+      There are more paradigms than just these three, but these are the most commonly seen ones.
+      Languages are also not restricted into only using one paradigm, and in fact, most support several.
+      Python for instance, typically follows an imperative or object-oriented approach, but it also has support for functional styling.
+      It also supports procedural programming \autocite{GeneralPythonFAQ}.
+
       \section{Language Use Cases}
       % Overview of when certain language are best
          While programming languages are typically designed to be used in a variety of situations, over time they start to develop a target domain.
@@ -95,13 +136,33 @@
       The examples used in this chapter will be useful for automating tasks at work or home.
       They also will focus on getting data from the Web quickly.
    \chapter{Challenging Yourself}
+   \label{chap:challenge}
       % Programming challenges and things like Project Euler or LeetCode
       Many of the problems a programmer faces are already solved, and it is useful to know how to recognize and solve some of the simpler ones.
       That being said, the examples in this chapter will likely difficult if you have not seen them before, but once you have solved them, they will become trivial for you in the future.
-   \label{chap:challenge}
+
    \chapter{Professional Development}
+      % Ways to improve your programming at a professional level
+      % Change ref to a table of info from the site
+      Solid, effective programming can lead to a good career in the computing industry.
+      In fact, the median salary of a web developer in 2019 was \$73,760 \autocite{malvikProgrammingCareersCoding}.
+      
+   \begin{table}
+      \csvreader[
+         respect all,
+         tabular=|c|c|c|,
+         table head=\hline \bfseries{Job} & \bfseries{Required Degree} & \bfseries{Median Salary} \\\hline,
+         late after last line=\\\hline
+      ]{salaries.csv}{}{
+         \csvcoli & \csvcolii & \csvcoliii
+      }
+      \caption{
+         Median salaries of jobs requiring programming skills in 2019 \autocite{malvikProgrammingCareersCoding}.
+      }
+   \end{table}
    \label{chap:prof_devel}
 
 \newpage
+\phantomsection
 \printbibliography[heading=bibintoc]
 \end{document}
