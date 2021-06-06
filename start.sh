@@ -13,6 +13,5 @@ docker run -it \
    -v $PWD/src/:/$LOC \
    -v $PWD/$OUTDIR:/$OUTDIR \
    -v $PWD/Makefile:/Makefile \
-   -v $PWD/styles/:/styles \
    -u $USERID:$GROUPID\
    texlive/texlive \

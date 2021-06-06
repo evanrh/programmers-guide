@@ -8,19 +8,37 @@
 \usepackage[Bjornstrup]{fncychap} % Fancy chapter headers
 \usepackage{csvsimple} % CSV to table handling
 \usepackage{listings} % Sections for embedding formatted source code
+\usepackage{xcolor-solarized} % Better Python highlighting
+\usepackage{float} % Keep things in line
 
 % MLA Citations
 \usepackage[american]{babel}
 \usepackage{csquotes}
 \usepackage[
    backend=biber,
-   style=mla-new,
+   style=ieee,
    sorting=none,
    natbib=true,
    hyperref=false
 ]{biblatex}
 
 \addbibresource{refs.bib}
+
+% Setup for Python listings
+\lstset{
+   language=Python,
+   basicstyle=\small\sffamily,
+   numbers=left,
+   numberstyle=\tiny,
+   frame=tb,
+   tabsize=4,
+   columns=fixed,
+   showstringspaces=false,
+   showtabs=false,
+   keepspaces,
+   commentstyle=\color{green},
+   keywordstyle=\color{blue}
+}
 
 % Hyperlinking setup
 \hypersetup{
@@ -37,7 +55,7 @@
 
 % Front matter
 \title{A Guide to Developing Skills for an Intermediate Programmer}
-\date{2021-05-26}
+\date{\today}
 \author{Evan Hastings}
 
 \begin{document}
@@ -53,7 +71,7 @@
       Once you have gained the initial knowledge of programming, learning where to go from there can be difficult.
       This guide's goal is to provide you with a meaningful way to continue developing your skills on your own.
 
-      Each section addresses a separate concern or concentartion a fledgling programmer might be interested in.
+      Each section addresses a separate concern or concentration a fledgling programmer might be interested in.
       That being said, each section is standalone and they can be read and completed in any order, but it would be beneficial to read the \hyperref[chap:general]{General} section before the others.
 
       All programming that you do can help you in any section, because the concepts are the same at their most basic.
@@ -81,53 +99,65 @@
       The examples and material here will help to provide a better foundational understanding of coding.
 
       \section{Paradigms}
-      % Overview of language paradigms and some examples of what they look like
-      Programming languages follow what are known as paradigms, which are the structure for how a language is written.
-      All programming languages roughly fit into three paradigms: imperative, object-oriented, and functional \autocite{normarkOverviewFourMain}.
+         % Overview of language paradigms and some examples of what they look like
+         Programming languages follow what are known as paradigms, which are the structure for how a language is written.
+         All programming languages roughly fit into three paradigms: imperative, object-oriented, and functional \autocite{normarkOverviewFourMain}.
 
-      \subsection{Imperative}
-      Most programming languages offer an imperative approach, and you've most likely used one at some point.
-      A few examples of imperative languages are: C, Python, and JavaScript.
+         \subsection{Imperative}
+         Most programming languages offer an imperative approach, and you've most likely used one at some point.
+         A few examples of imperative languages are: C, Python, and JavaScript.
 
-      Imperative languages treat the input source code as a sequential set of instructions that the computer will run.
-      They are also characteristic in that the program's state changes due to the passing of time \autocite{normarkOverviewFourMain}.
-      Imperative programming is what most programmers learn first, because thinking of code as a set of instructions that operate on state is a simple concept to grasp.
+         Imperative languages treat the input source code as a sequential set of instructions that the computer will run.
+         They are also characteristic in that the program's state changes due to the passing of time \autocite{normarkOverviewFourMain}.
+         Imperative programming is what most programmers learn first, because thinking of code as a set of instructions that operate on state is a simple concept to grasp.
 
-      \subsection{Object-Oriented}
-      Object-oriented languages are in major use today.
-      Some examples of languages that use an object-oriented approach are: C++, Python, and Java.
+         \subsection{Object-Oriented}
+         Object-oriented languages are in major use today.
+         Some examples of languages that use an object-oriented approach are: C++, Python, and Java.
 
-      Object-oriented languages organize data and methods into 'objects' which are an encapsulation.
-      Objects interact with each other through methods that they list publicly to each other, and they are organized in hierarchies of inheritance \autocite{normarkOverviewFourMain}.
-      These restrictions on interaction and inheritance allow the programmer to hide away details from how the code actually works.
-      As a result, the designer provides methods that perform actions with observable and reasonable side effects.
+         Object-oriented languages organize data and methods into 'objects' which are an encapsulation.
+         Objects interact with each other through methods that they list publicly to each other, and they are organized in hierarchies of inheritance \autocite{normarkOverviewFourMain}.
+         These restrictions on interaction and inheritance allow the programmer to hide away details from how the code actually works.
+         As a result, the designer provides methods that perform actions with observable and reasonable side effects.
 
-      \subsection{Functional}
-      Functional languages see use, but they are far less used compared to the other two paradigms.
-      Examples of functional languages include: Haskell, Lisp, and JavaScript\footnotemark.
+         \subsection{Functional}
+         Functional languages see use, but they are far less used compared to the other two paradigms.
+         Examples of functional languages include: Haskell, Lisp, and JavaScript\footnotemark.
 
-      This paradigm treats code as a series of mathematical equations that are evaluated at run time.
-      Functional languages treat data as immutable, so the program's state cannot be changed as in the other paradigms \autocite{normarkOverviewFourMain}.
-      Functions are also treated like data, and they can be passed as arguments to other functions.
+         This paradigm treats code as a series of mathematical equations that are evaluated at run time.
+         Functional languages treat data as immutable, so the program's state cannot be changed as in the other paradigms \autocite{normarkOverviewFourMain}.
+         Functions are also treated like data, and they can be passed as arguments to other functions.
 
-      This approach produces code that is very safe to use, but it can take a much longer amount of time to write.
-      It also produces code that is thread-safe by nature, since the resulting program does not update state as it progresses.
+         This approach produces code that is very safe to use, but it can take a much longer amount of time to write.
+         It also produces code that is thread-safe by nature, since the resulting program does not update state as it progresses.
 
-      \footnotetext{
-         Of these languages, only Haskell is purely functional.
-         The other languages support functional styles, but they do not restrict the user into following them.
-      }
+         \footnotetext{
+            Of these languages, only Haskell is purely functional.
+            The other languages support functional styles, but they do not restrict the user into following them.
+         }
 
-      There are more paradigms than just these three, but these are the most commonly seen ones.
-      Languages are also not restricted into only using one paradigm, and in fact, most support several.
-      Python for instance, typically follows an imperative or object-oriented approach, but it also has support for functional styling.
-      It also supports procedural programming \autocite{GeneralPythonFAQ}.
+         There are more paradigms than just these three, but these are the most commonly seen ones.
+         Languages are also not restricted into only using one paradigm, and in fact, most support several.
+         Python for instance, typically follows an imperative or object-oriented approach, but it also has support for functional styling.
+         It also supports procedural programming \autocite{GeneralPythonFAQ}.
 
       \section{Language Use Cases}
-      % Overview of when certain language are best
+         % Overview of when certain language are best
          While programming languages are typically designed to be used in a variety of situations, over time they start to develop a target domain.
          You can use a language in any manner you see fit, but they each do have strengths and weaknesses when used for different applications.
+         It is useful to know what a language is good for, so that you can use the right tool for each job.
          So, what are some common use cases and languages that are useful for them?
+
+         \subsection{Systems and Low Level}
+         Systems require languages that can both operate at a low level and run quickly.
+         According to Microsoft, systems differ from applications, because they are tasked with controlling the hardware and providing interfaces for higher level languages \autocite{microsoftPanelSystemsProgramming2014}.
+         As a result, a standard library and operating system are not present at this level.
+
+         \subsection{Data Science}
+
+         \subsection{Web}
+
+         \subsection{Extra Considerations}
 
    \chapter{Practical Programming}
    \label{chap:practical}
@@ -141,26 +171,70 @@
       Many of the problems a programmer faces are already solved, and it is useful to know how to recognize and solve some of the simpler ones.
       That being said, the examples in this chapter will likely difficult if you have not seen them before, but once you have solved them, they will become trivial for you in the future.
 
+      \section{Math and Simple Algorithms}
+         \subsection{Largest Prime Factor}
+         % Project Euler #3
+         Prime numbers are an idea that show up quite a bit in modern computing.
+         They are the foundation of cryptography, and finding prime numbers with a computer can take a long time.
+         That being said, this example will supply a solution to quickly solving for smaller prime numbers in the order of less than 1 million.
+
+         \subsubsection{The Problem}
+         Given a number \textit{n} find the sum of all prime numbers from [2,\textit{n}] in under a second.
+         \textit{n} will be less than 1,000,000.
+
+         \subsubsection{The Algorithm}
+         The typical way to solve for primality of \textit{n} is to modulus it with every number preceding it and verify if any result produces 0.
+         This is a very slow way to solve this problem, and in order to solve it more quickly, we can leverage an algorithm from an ancient Greek mathematician: the \textit{sieve of Eratosthenes}.
+
+         % Include some kind of graphic here
+         According to Sedgewick, the sieve works on an array of numbers that get marked if they are composite, and it starts at 2, working up until $\sqrt{n}$.
+         Each number, \textit{i}, starting at \textit{$i^2$}, will be marked as composite, until the limit is reached.
+         Then, \textit{i} will advance to the next unmarked number, and will continue until the limit.
+         At the end, all unmarked numbers are prime \autocite{sedgewickAlgorithms1992}.
+
+         See below, in Listing \ref{sieve} for an example of the sieve in Python.
+         \lstinputlisting[
+         language=Python,
+         firstline=2,
+         lastline=23,
+         caption={A simple sieve that adds up the resulting primes},
+         label=sieve]
+         {examples/chapter4/sieve.py}
+
+         The example in Listing \ref{sieve} uses an array of bools with the positions representing each number.
+         A value of 'true' indicates that the number is prime, and each number is initially set to 'true'.
+         Once this list is created, it is looped over starting from the first prime number, 2, until i reaches $\sqrt{n}$.
+         At this point, on line 20, the indices are enumerated alongside the primalities, and the composites are filtered out.
+         Then, the primes are summed and returned from the function.
    \chapter{Professional Development}
-      % Ways to improve your programming at a professional level
-      % Change ref to a table of info from the site
-      Solid, effective programming can lead to a good career in the computing industry.
-      In fact, the median salary of a web developer in 2019 was \$73,760 \autocite{malvikProgrammingCareersCoding}.
-      
-   \begin{table}
-      \csvreader[
-         respect all,
-         tabular=|c|c|c|,
-         table head=\hline \bfseries{Job} & \bfseries{Required Degree} & \bfseries{Median Salary} \\\hline,
-         late after last line=\\\hline
-      ]{salaries.csv}{}{
-         \csvcoli & \csvcolii & \csvcoliii
-      }
-      \caption{
-         Median salaries of jobs requiring programming skills in 2019 \autocite{malvikProgrammingCareersCoding}.
-      }
-   \end{table}
    \label{chap:prof_devel}
+      % Ways to improve your programming at a professional level
+      % Include example using an API
+      Solid, effective programming can lead to a good career in the computing industry.
+      Programming is a skill in high demand that can lead to many different high paying careers (see Table \ref*{table:jobs}).
+      Learning to develop yourself professionally requires learning about the tools that are available to you, as well as learning programming.
+      In this chapter, we will cover API usage with a fun, RESTful API, learning a new language, and some information on current technology.
+      \begin{table}[H]
+         \csvreader[
+            respect all,
+            tabular=|c|c|c|,
+            table head=\hline \bfseries{Job} & \bfseries{Required Degree} & \bfseries{Median Salary} \\\hline,
+            late after last line=\\\hline
+         ]{salaries.csv}{}{
+            \csvcoli & \csvcolii & \csvcoliii
+         }
+         \caption{
+            Median salaries of jobs requiring programming skills in 2019, acquired from Malvik at Rasmussen \autocite{malvikProgrammingCareersCoding}.
+         }
+         \label{table:jobs}
+      \end{table}
+
+      \section{API Usage}
+      APIs or 'Application Programming Interfaces' are publicly exposed methods for accessing someone else's system.
+      REST, which stands for 'REpresentational State Transfer' is a design pattern that allows responses between a client and server to remain stateless and consistently defined \autocite{hallettPokeAPI}.
+      The API being used for this chapter is called 'PokeAPI', and it is used to provide a programmatic interface to information regarding Pokémon.
+      While not inherently useful on its own for our purposes, this API will help show you how many APIs across the web structure themselves.
+      Knowledge of one RESTful API will lead to easier access to any others you come across while coding.
 
 \newpage
 \phantomsection

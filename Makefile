@@ -10,6 +10,6 @@ MAIN = guide
 
 all: $(SRCS)
 	$(TEXINPUTS) $(CC) -output-directory $(ODIR) $(SDIR)/$(MAIN).tex
-	cd $(ODIR) && BIBINPUTS="../src:" BSTINPUT="styles:" TEXMFOUTPUT="$(ODIR)" biber $(MAIN) && cd ..
+	cd $(ODIR) && BIBINPUTS="../src:" TEXMFOUTPUT="$(ODIR)" biber $(MAIN) && cd ..
 	$(TEXINPUTS) $(CC) -output-directory $(ODIR) $(MAIN).tex
 	$(TEXINPUTS) $(CC) -output-directory $(ODIR) $(MAIN).tex
