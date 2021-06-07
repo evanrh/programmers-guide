@@ -154,10 +154,26 @@
          As a result, a standard library and operating system are not present at this level.
 
          \subsection{Data Science}
+         The concerns of data science are that a language has good support for matrices and for statistical analysis.
+         Historically, the languages that have been used are not as focused on speed as they are on flexibility, but speed is becoming a concern as larger projects get built to handle data science needs.
+
+         Languages that are key to data science are:
+         \begin{itemize}
+            \item Python
+            \item R
+            \item SQL
+            \item Julia
+         \end{itemize} \autocite{MostPopularLanguages}
+
+         Python and R are the most widely used, but they do not prioritize speed as a concern.
+         Julia is a more recent language that aims to address this concern, while also keeping the same amount of flexibility as Python and R \autocite{MostPopularLanguages}.
 
          \subsection{Web}
+         Web programming has much different concerns from other domains.
+         On the web, software is much more focused on usability and scalability \autocite{siiaSoftwareServiceChanging2004}.
 
          \subsection{Extra Considerations}
+         
 
    \chapter{Practical Programming}
    \label{chap:practical}
@@ -236,7 +252,20 @@
       While not inherently useful on its own for our purposes, this API will help show you how many APIs across the web structure themselves.
       Knowledge of one RESTful API will lead to easier access to any others you come across while coding.
 
+      \section{Current Technology and Practices}
+      Software development has taken to a new domain in the past 20 years.
+      Most applications now are being developed to run as web applications or 'software-as-a-service' (SAAS) in cloud based environments currently \autocite{WhatCloudComputing}.
+      As a result of this shift, applications require a special set of considerations to made, so that they can scale and serve users properly.
+
+      The typical guideline for this is known as the '12 Factor App\footnotemark,' which separates out the concerns of an application from its runtime environment \autocite{wigginsTwelveFactorApp2017}.
+      Using this as a basis allows for a small, scalable application that can be deployed on almost any machine.
+      Let's take a look at some of the most important tenets from the specification.
+      \footnotetext{
+         An HTML version of the 12 Factor App spec can be found at \url{https://12factor.net}.
+      }
+
+
 \newpage
 \phantomsection
-\printbibliography[heading=bibintoc]
+\printbibliography[title={Works Cited},heading=bibintoc]
 \end{document}
