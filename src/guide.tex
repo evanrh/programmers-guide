@@ -24,7 +24,24 @@
 
 \addbibresource{refs.bib}
 
+% Setup JavaScript listing style
+
+\usepackage{color}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, void, while, with, let},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  sensitive=true
+}
+
 % Setup for Python listings
+
 \lstset{
    language=Python,
    basicstyle=\small\sffamily,
@@ -51,7 +68,7 @@
 
 % TOC Setup
 \setcounter{tocdepth}{1}
-\setcounter{secnumdepth}{1}
+\setcounter{secnumdepth}{2}
 
 % Front matter
 \title{A Guide to Developing Skills for an Intermediate Programmer}
@@ -64,9 +81,13 @@
    \newpage
    \pagenumbering{roman}
    \tableofcontents
-   \newpage
-   \pagenumbering{arabic}
-   \chapter{Introduction}
+   \lstlistoflistings
+   \addcontentsline{toc}{chapter}{List of Code Listings}
+   \listoftables
+   \addcontentsline{toc}{chapter}{\listtablename}
+
+   \chapter*{Preface}
+   \addcontentsline{toc}{chapter}{Preface}
       Programming as an activity is both very engaging and rewarding.
       Once you have gained the initial knowledge of programming, learning where to go from there can be difficult.
       This guide's goal is to provide you with a meaningful way to continue developing your skills on your own.
@@ -90,9 +111,12 @@
       \begin{itemize}
          \item Data types (variable types)
          \item Compiled languages vs interpreted languages
-         \item Pointers
-         \item Arrays
+         \item Pointers and arrays
       \end{itemize}
+
+   \newpage
+   \pagenumbering{arabic}
+
    \chapter{General Knowledge and Improvement}
    \label{chap:general}
       This chapter aims at helping you with programming in general.
@@ -171,10 +195,22 @@
          \subsection{Web}
          Web programming has much different concerns from other domains.
          On the web, software is much more focused on usability and scalability \autocite{siiaSoftwareServiceChanging2004}.
+         As a result, preferred languages for the Web domain will allow for rapid prototyping, package integration, and object-oriented capabilities.
+         Web programming also deals with a separate front-end, which is what the user sees, and backend, which is what the user does not see.
+         This section covers useful backend languages.
 
+         Popular languages in this domain include: PHP, Python, and C#.
+
+         These languages are great for Web development, because they all share features that allow for efficient, rapid development.
+         Each of them has an officially developed package management tool that allows for ease of access in including third-party code in a project.
+         All three languages also have great frameworks for Web projects that allow for even easier development of good products.
          \subsection{Extra Considerations}
+         Programming languages are often designed to be general purpose, and they don't necessarily have to be used as detailed above.
+         They can be applied to realistically any domain that the user sees fit, but take care to keep in mind the main concerns a language's design addresses.
+         For example, if you wanted to make a speedy web application, you might be inclined to write the application in C.
+         While this is perfectly okay, the amount of time spent developing the application will be exponentially higher than if you had begun the project with a language like Ruby.
+         The software you write may also not be portable if you took advantage of system level APIs while writing the code.
          
-
    \chapter{Practical Programming}
    \label{chap:practical}
       % Get some ideas from Al Sweisgart's 'Automate the Boring Stuff'
@@ -186,6 +222,8 @@
       % Programming challenges and things like Project Euler or LeetCode
       Many of the problems a programmer faces are already solved, and it is useful to know how to recognize and solve some of the simpler ones.
       That being said, the examples in this chapter will likely difficult if you have not seen them before, but once you have solved them, they will become trivial for you in the future.
+      This chapter will also focus on taking functional approaches to the problems.
+      Functional programming is much more difficult to think about than imperative styles, and typically a programmer who can write functional style code can translate it to imperative code if needed.
 
       \section{Math and Simple Algorithms}
          \subsection{Largest Prime Factor}
@@ -210,18 +248,45 @@
 
          See below, in Listing \ref{sieve} for an example of the sieve in Python.
          \lstinputlisting[
-         language=Python,
-         firstline=2,
-         lastline=23,
-         caption={A simple sieve that adds up the resulting primes},
+            language=Python,
+            firstline=2,
+            lastline=23,
+            caption={A simple sieve that adds up the resulting primes},
          label=sieve]
-         {examples/chapter4/sieve.py}
+         {examples/chapter3/sieve.py}
 
          The example in Listing \ref{sieve} uses an array of bools with the positions representing each number.
          A value of 'true' indicates that the number is prime, and each number is initially set to 'true'.
          Once this list is created, it is looped over starting from the first prime number, 2, until i reaches $\sqrt{n}$.
          At this point, on line 20, the indices are enumerated alongside the primalities, and the composites are filtered out.
          Then, the primes are summed and returned from the function.
+
+         \subsection{Odd Fibonacci Numbers}
+         % Free Code Camp Intermediate JS A&S 'Sum All Odd Fibonacci Numbers'
+         This problem comes from FreeCodeCamp's \textit{Intermediate Algorithm Scripting} course, and it functions similarly to the last problem \autocite{freecodecampLearnIntermediateAlgorithm}.
+         The structure requires us to slightly revise an existing algorithm to solve a different problem.
+
+         \subsubsection{The Problem}
+         ``Given a positive integer, \textit{num}, find the sum of all odd Fibonacci numbers that are less than or equal to \textit{num}.''
+
+         \subsubsection{The Algorithm}
+         This problem requires the programmer to use a subset of the Fibonacci sequence in order to find the result.
+         A naïve solution would be to generate a list of all Fibonacci numbers less than \textit{num} and filter out the odd numbers.
+         A better approach is to accumulate the odd numbers as you generate all Fibonacci numbers less than \textit{num}.
+         The below example in Listings \ref{fibNums} shows an example of the second algorithm in Javascript.
+
+         \lstinputlisting[
+            language=JavaScript,
+            caption={Summing Odd Fibonacci Numbers},
+         label=fibNums]
+         {examples/chapter3/oddFibNums.js}
+
+         The Fibonacci sequence is a numerical sequence where each consecutive element is found by summing the previous two elements \autocite{parshallFibonacciSequence}.
+         The first two elements are 1 and 1, respectively, so the sequence begins as such: 1,1,2,3,5,8\ldots.
+         Listing \ref{fibNums} uses an iterative algorithm that accumulates the odd numbered Fibonacci numbers into \lstinline!result!.
+         \lstinline!p! and \lstinline!q! represent the previous two members of the sequence.
+         Doing so allows the work of summing the odd numbers to be done while generating the sequence itself.
+
    \chapter{Professional Development}
    \label{chap:prof_devel}
       % Ways to improve your programming at a professional level
