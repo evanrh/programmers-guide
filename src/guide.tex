@@ -5,11 +5,12 @@
 \usepackage{indentfirst} % Indents first paragraph in a section
 \usepackage{hyperref} % Hyperlinking and anchoring
 \usepackage[dvipsnames]{xcolor} % Better color options
-\usepackage[Bjornstrup]{fncychap} % Fancy chapter headers
+%\usepackage[Rejne]{fncychap} % Fancy chapter headers
 \usepackage{csvsimple} % CSV to table handling
 \usepackage{listings} % Sections for embedding formatted source code
 \usepackage{xcolor-solarized} % Better Python highlighting
 \usepackage{float} % Keep things in line
+\usepackage{tocbibind}
 
 % MLA Citations
 \usepackage[american]{babel}
@@ -92,16 +93,18 @@
       Once you have gained the initial knowledge of programming, learning where to go from there can be difficult.
       This guide's goal is to provide you with a meaningful way to continue developing your skills on your own.
 
-      Each section addresses a separate concern or concentration a fledgling programmer might be interested in.
+      Each section addresses a separate concern or concentration an intermediate programmer might be interested in.
       That being said, each section is standalone and they can be read and completed in any order, but it would be beneficial to read the \hyperref[chap:general]{General} section before the others.
 
-      All programming that you do can help you in any section, because the concepts are the same at their most basic.
-      For example, the \hyperref[chap:challenge]{Challenging} section will teach you how to think more algorithmically, and once you understand algorithms, the knowledge can be applied to the other topics.
+      Similar to other skills, the more you practice programming, the better you will become at it.
+      The concepts also overlap with each other, so practice in one area will likely help with learning about another.
+      For example, the \hyperref[chap:challenge]{Challenging} section will teach you how to think more algorithmically, and once you understand algorithms, the knowledge can be applied to the other focus areas to speed up your code..
 
       Lastly, this book is intended to help further your development of skills relevant to programming.
       It should not be used to learn the basics of programming, and it will likely seem foreign if you have not done much programming before.
 
       Below are some concepts you should be familiar with before using this book\footnotemark.
+      If these concepts are unfamiliar to you, please refer to the \hyperref[chap:def]{Definitions} section for more information.
 
       \footnotetext{
          A useful text for learning the prerequisite material is \href{https://beej.us/guide/bgc/}{Beej's Guide to C}.
@@ -120,52 +123,78 @@
    \chapter{General Knowledge and Improvement}
    \label{chap:general}
       This chapter aims at helping you with programming in general.
-      The examples and material here will help to provide a better foundational understanding of coding.
+      The examples and material here will help familiarize you with the environment that you will be working in.
+      If there are words, names, or concepts that you are not familiar with, please consult the \hyperref[chap:definitions]{Definitions} section for more information.
 
       \section{Paradigms}
          % Overview of language paradigms and some examples of what they look like
          Programming languages follow what are known as paradigms, which are the structure for how a language is written.
          All programming languages roughly fit into three paradigms: imperative, object-oriented, and functional \autocite{normarkOverviewFourMain}.
+         Languages are also not restricted into only using one paradigm, and in fact, most support several.
+         Python for instance, typically follows an imperative or object-oriented approach, but it also has support for functional styling \autocite{GeneralPythonFAQ}.
 
          \subsection{Imperative}
-         Most programming languages offer an imperative approach, and you've most likely used one at some point.
-         A few examples of imperative languages are: C, Python, and JavaScript.
-
-         Imperative languages treat the input source code as a sequential set of instructions that the computer will run.
+         Imperative languages, which are also known as procedural languages, treat the input source code as a sequential set of instructions that the computer will run.
          They are also characteristic in that the program's state changes due to the passing of time \autocite{normarkOverviewFourMain}.
          Imperative programming is what most programmers learn first, because thinking of code as a set of instructions that operate on state is a simple concept to grasp.
 
-         \subsection{Object-Oriented}
-         Object-oriented languages are in major use today.
-         Some examples of languages that use an object-oriented approach are: C++, Python, and Java.
+         Most programming languages offer an imperative approach, and you've most likely used one at some point.
+         A few examples of imperative languages are: C, Python, and JavaScript.
 
-         Object-oriented languages organize data and methods into 'objects' which are an encapsulation.
+         \subsubsection{Example}
+         \lstinputlisting[
+            language=C,
+            firstline=7,
+            caption={Imperative code in C},
+         label=ex:imperative]
+         {examples/chapter1/imperative.c}
+
+         The above example in C shows how an imperative style language works.
+         The program executes each line sequentially, and the program's state is modified as it runs.
+         \subsection{Object-Oriented}
+         Object-oriented languages organize data and methods into 'objects' which is called ``encapsulation''.
          Objects interact with each other through methods that they list publicly to each other, and they are organized in hierarchies of inheritance \autocite{normarkOverviewFourMain}.
          These restrictions on interaction and inheritance allow the programmer to hide away details from how the code actually works.
          As a result, the designer provides methods that perform actions with observable and reasonable side effects.
 
-         \subsection{Functional}
-         Functional languages see use, but they are far less used compared to the other two paradigms.
-         Examples of functional languages include: Haskell, Lisp, and JavaScript\footnotemark.
+         Object-oriented languages are in major use today, and they are the primary choice of language for many software projects.
+         Some examples of languages that use an object-oriented approach are: C++, Python, and Java.
 
+         \subsubsection{Example}
+         % TODO Explain listing
+         \lstinputlisting[
+            language=Python,
+            caption={Object-oriented code in Python},
+         label=ex:oop]
+         {examples/chapter1/oop.py}
+
+         \subsection{Functional}
          This paradigm treats code as a series of mathematical equations that are evaluated at run time.
-         Functional languages treat data as immutable, so the program's state cannot be changed as in the other paradigms \autocite{normarkOverviewFourMain}.
+         Functional languages treat data as immutable, so the program's state cannot be modified at runtime as in the other paradigms \autocite{normarkOverviewFourMain}.
          Functions are also treated like data, and they can be passed as arguments to other functions.
 
          This approach produces code that is very safe to use, but it can take a much longer amount of time to write.
          It also produces code that is thread-safe by nature, since the resulting program does not update state as it progresses.
+
+         Functional languages are less likely to be used compared to the other two paradigms.
+         This is due to the fact that it usually takes more time to develop in a functional language.
+         Examples of functional languages include: Haskell, Lisp, and JavaScript\footnotemark.
 
          \footnotetext{
             Of these languages, only Haskell is purely functional.
             The other languages support functional styles, but they do not restrict the user into following them.
          }
 
-         There are more paradigms than just these three, but these are the most commonly seen ones.
-         Languages are also not restricted into only using one paradigm, and in fact, most support several.
-         Python for instance, typically follows an imperative or object-oriented approach, but it also has support for functional styling.
-         It also supports procedural programming \autocite{GeneralPythonFAQ}.
+         \subsubsection{Example}
+         \lstinputlisting[
+            language=Python,
+            caption={Functional code in Python},
+         label=ex:functional]
+         {examples/chapter1/functional.py}
 
-      \section{Language Use Cases}
+         There are more paradigms than just these three, but these are the most commonly seen ones.
+
+         \section{Language Use Cases}
          % Overview of when certain language are best
          While programming languages are typically designed to be used in a variety of situations, over time they start to develop a target domain.
          You can use a language in any manner you see fit, but they each do have strengths and weaknesses when used for different applications.
@@ -176,18 +205,14 @@
          Systems require languages that can both operate at a low level and run quickly.
          According to Microsoft, systems differ from applications, because they are tasked with controlling the hardware and providing interfaces for higher level languages \autocite{microsoftPanelSystemsProgramming2014}.
          As a result, a standard library and operating system are not present at this level.
+         This means that you do not have access to any facility provided by an operating system, like memory management or a filesystem, and you are required to develop everything you need yourself.
+         You do however have full access to the resources of the underlying hardware, which can help a project take advantage of hardware easier.
 
          \subsection{Data Science}
          The concerns of data science are that a language has good support for matrices and for statistical analysis.
          Historically, the languages that have been used are not as focused on speed as they are on flexibility, but speed is becoming a concern as larger projects get built to handle data science needs.
 
-         Languages that are key to data science are:
-         \begin{itemize}
-            \item Python
-            \item R
-            \item SQL
-            \item Julia
-         \end{itemize} \autocite{MostPopularLanguages}
+         Languages that are key to data science are Python, R, SQL, Julia \autocite{MostPopularLanguages}
 
          Python and R are the most widely used, but they do not prioritize speed as a concern.
          Julia is a more recent language that aims to address this concern, while also keeping the same amount of flexibility as Python and R \autocite{MostPopularLanguages}.
@@ -199,7 +224,7 @@
          Web programming also deals with a separate front-end, which is what the user sees, and backend, which is what the user does not see.
          This section covers useful backend languages.
 
-         Popular languages in this domain include: PHP, Python, and C#.
+         Popular languages in this domain include: PHP, Python, and C\#.
 
          These languages are great for Web development, because they all share features that allow for efficient, rapid development.
          Each of them has an officially developed package management tool that allows for ease of access in including third-party code in a project.
@@ -208,15 +233,9 @@
          Programming languages are often designed to be general purpose, and they don't necessarily have to be used as detailed above.
          They can be applied to realistically any domain that the user sees fit, but take care to keep in mind the main concerns a language's design addresses.
          For example, if you wanted to make a speedy web application, you might be inclined to write the application in C.
-         While this is perfectly okay, the amount of time spent developing the application will be exponentially higher than if you had begun the project with a language like Ruby.
+         While this is acceptable, the amount of time spent developing the application will be exponentially higher than if you had begun the project with a language like Ruby.
          The software you write may also not be portable if you took advantage of system level APIs while writing the code.
          
-   \chapter{Practical Programming}
-   \label{chap:practical}
-      % Get some ideas from Al Sweisgart's 'Automate the Boring Stuff'
-      In this chapter, you will be guided through programming in a useful manner.
-      The examples used in this chapter will be useful for automating tasks at work or home.
-      They also will focus on getting data from the Web quickly.
    \chapter{Challenging Yourself}
    \label{chap:challenge}
       % Programming challenges and things like Project Euler or LeetCode
@@ -285,8 +304,14 @@
          The first two elements are 1 and 1, respectively, so the sequence begins as such: 1,1,2,3,5,8\ldots.
          Listing \ref{fibNums} uses an iterative algorithm that accumulates the odd numbered Fibonacci numbers into \lstinline!result!.
          \lstinline!p! and \lstinline!q! represent the previous two members of the sequence.
-         Doing so allows the work of summing the odd numbers to be done while generating the sequence itself.
+         This setup is effective, because the work of summing the odd numbers can be done while generating the sequence itself.
 
+   \chapter{Practical Programming}
+   \label{chap:practical}
+      % Get some ideas from Al Sweisgart's 'Automate the Boring Stuff'
+      In this chapter, you will be guided through programming in a useful manner.
+      The examples used in this chapter will be useful for automating tasks at work or home.
+      They also will focus on getting data from the Web quickly.
    \chapter{Professional Development}
    \label{chap:prof_devel}
       % Ways to improve your programming at a professional level
@@ -320,7 +345,7 @@
       \section{Current Technology and Practices}
       Software development has taken to a new domain in the past 20 years.
       Most applications now are being developed to run as web applications or 'software-as-a-service' (SAAS) in cloud based environments currently \autocite{WhatCloudComputing}.
-      As a result of this shift, applications require a special set of considerations to made, so that they can scale and serve users properly.
+      As a result of this shift, applications require a special set of considerations to be made, so that they can scale and serve users properly.
 
       The typical guideline for this is known as the '12 Factor App\footnotemark,' which separates out the concerns of an application from its runtime environment \autocite{wigginsTwelveFactorApp2017}.
       Using this as a basis allows for a small, scalable application that can be deployed on almost any machine.
@@ -329,6 +354,11 @@
          An HTML version of the 12 Factor App spec can be found at \url{https://12factor.net}.
       }
 
+   \chapter*{Definitions}
+   \addcontentsline{toc}{chapter}{Definitions}
+   \label{chap:definitions}
+      As this guide contains information meant for learning new concepts, it is likely that you might not understand all of the terms and names.
+      This chapter will provide definitions for things that are mentioned in the guide.
 
 \newpage
 \phantomsection
