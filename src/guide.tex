@@ -83,9 +83,7 @@
    \pagenumbering{roman}
    \tableofcontents
    \lstlistoflistings
-   \addcontentsline{toc}{chapter}{List of Code Listings}
    \listoftables
-   \addcontentsline{toc}{chapter}{\listtablename}
 
    \chapter*{Preface}
    \addcontentsline{toc}{chapter}{Preface}
@@ -252,7 +250,7 @@
          That being said, this example will supply a solution to quickly solving for smaller prime numbers in the order of less than 1 million.
 
          \subsubsection{The Problem}
-         Given a number \textit{n} find the sum of all prime numbers from [2,\textit{n}] in under a second.
+         Given a number \textit{n}, find the sum of all prime numbers from [2,\textit{n}] in under a second.
          \textit{n} will be less than 1,000,000.
 
          \subsubsection{The Algorithm}
@@ -272,7 +270,7 @@
             lastline=23,
             caption={A simple sieve that adds up the resulting primes},
          label=sieve]
-         {examples/chapter3/sieve.py}
+         {examples/chapter2/sieve.py}
 
          The example in Listing \ref{sieve} uses an array of bools with the positions representing each number.
          A value of 'true' indicates that the number is prime, and each number is initially set to 'true'.
@@ -298,7 +296,7 @@
             language=JavaScript,
             caption={Summing Odd Fibonacci Numbers},
          label=fibNums]
-         {examples/chapter3/oddFibNums.js}
+         {examples/chapter2/oddFibNums.js}
 
          The Fibonacci sequence is a numerical sequence where each consecutive element is found by summing the previous two elements \autocite{parshallFibonacciSequence}.
          The first two elements are 1 and 1, respectively, so the sequence begins as such: 1,1,2,3,5,8\ldots.
@@ -347,7 +345,7 @@
       Most applications now are being developed to run as web applications or 'software-as-a-service' (SAAS) in cloud based environments currently \autocite{WhatCloudComputing}.
       As a result of this shift, applications require a special set of considerations to be made, so that they can scale and serve users properly.
 
-      The typical guideline for this is known as the '12 Factor App\footnotemark,' which separates out the concerns of an application from its runtime environment \autocite{wigginsTwelveFactorApp2017}.
+      The typical guideline for this is known as the \textit{12 Factor App\footnotemark}, which separates out the concerns of an application from its runtime environment \autocite{wigginsTwelveFactorApp2017}.
       Using this as a basis allows for a small, scalable application that can be deployed on almost any machine.
       Let's take a look at some of the most important tenets from the specification.
       \footnotetext{
