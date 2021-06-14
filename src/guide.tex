@@ -58,12 +58,15 @@
    keywordstyle=\color{blue}
 }
 
+% Variable for inserting Title where it is needed
+\newcommand\titletext{A Guide to Developing Skills for an Intermediate Programmer}
+
 % Hyperlinking setup
 \hypersetup{
    colorlinks = true,
    urlcolor = cyan,
    linkcolor = ForestGreen,
-   pdftitle={An Intermediate Programmer's Guide to Developing Skills},
+   pdftitle=\titletext,
    citecolor = black
 }
 
@@ -72,7 +75,7 @@
 \setcounter{secnumdepth}{2}
 
 % Front matter
-\title{A Guide to Developing Skills for an Intermediate Programmer}
+\title{\titletext}
 \date{\today}
 \author{Evan Hastings}
 
@@ -317,7 +320,7 @@
       Solid, effective programming can lead to a good career in the computing industry.
       Programming is a skill in high demand that can lead to many different high paying careers (see Table \ref*{table:jobs}).
       Learning to develop yourself professionally requires learning about the tools that are available to you, as well as learning programming.
-      In this chapter, we will cover API usage with a fun, RESTful API, learning a new language, and some information on current technology.
+      In this chapter, we will cover API usage with a fun, RESTful API, basic security, and some information on current technology.
       \begin{table}[H]
          \csvreader[
             respect all,
@@ -333,6 +336,28 @@
          \label{table:jobs}
       \end{table}
 
+      \section{Focusing on Security}
+      Application security and security by design are becoming more important by the day.
+      In 2020 alone, ``ransomware surged by 150\%,'' and that amount is only continuing to grow by the day \autocite{muncasterRansomwareAttacksSoared2021}.
+      These types of attacks typically take advantage of people by means of phishing, but they also can leverage poorly written applications.
+      In this section, we will explore a very simple example of an application developed with bad security in mind, and how you can easily get around a simple PIN mechanism.
+
+      \subsection{Background and Challenge}
+      In order to follow along with this challenge, please download the 'password\_server.py' file from \url{https://github.com/evanrh/programmers-guide/examples/chapter4/}.
+      The idea for this example came from level 25 on OverTheWire.org in their 'Bandit' category \autocite{overthewireOverTheWireLevelGoal}.
+      A brute force attack is a basic type of cyber attack that uses many repeating, successive attempts of passwords or other forms of authentication in order to get into a system \autocite{universityGrowingCybersecurityThreats2019}.
+      These are very common amongst all forms of hackers, so it is important that an application keep them in mind.
+      The server application you just downloaded does not perform any complex action, but it is still a great example of an unsecure system.
+      Let's take a look at how it works and explain why it is not secure.
+
+      \lstinputlisting[
+         language=Python,
+         caption={The unsecure server application},
+      label=unsecureServer]
+      {examples/chapter4/password_server.py}
+
+      This very basic application takes a string and compares it to a known password and PIN combination.
+      It will then either send the client a message saying ``Wrong!'' if the combination is wrong, or ``Correct!'' with a new password as the output.
       \section{API Usage}
       APIs or 'Application Programming Interfaces' are publicly exposed methods for accessing someone else's system.
       REST, which stands for 'REpresentational State Transfer' is a design pattern that allows responses between a client and server to remain stateless and consistently defined \autocite{hallettPokeAPI}.
