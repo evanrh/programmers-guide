@@ -311,8 +311,50 @@
    \label{chap:practical}
       % Get some ideas from Al Sweisgart's 'Automate the Boring Stuff'
       In this chapter, you will be guided through programming in a useful manner.
-      The examples used in this chapter will be useful for automating tasks at work or home.
-      They also will focus on getting data from the Web quickly.
+      The examples used in this chapter will focus on practical applications of programming that you can find use of at work or home.
+
+      \section{Command Line Contact Book}
+      Contact applications are ubiquitous amongst our devices, but there are not many for command line use.
+      A contact application is a good example of storing data in a meaningful way and for making sure that it can be retrieved easily too.
+      This example will detail the use of a SQLite\footnotemark database and of a model-view-controller design pattern.
+      The idea for this project comes from Shopeju at RealPython.org \autocite{shopeju13ProjectIdeas}.
+
+      \footnotetext{
+         For more information about SQLite, see the official documentation at \url{https://sqlite.org/index.html}.
+         This guide does not assume knowledge about SQL and will attempt to explain as much as is necessary.
+      }
+
+      \subsection{Architecture}
+      As mentioned previously, this design will use a model-view-controller, or MVC, pattern.
+      According to Hernandez, MVC is an object-oriented architectural design pattern for a software project that separates concerns out into three layers: model, view, and controller.
+      The model layer contains objects that contain the actual logic of the system.
+      The view layer is what is shown to the user, and it contains objects that represent the current state of models in the system.
+      Lastly, the controller layer handles passing data between the model and view layers.
+      The controller layer is also responsible for controlling how data is displayed \autocite{hernandezModelViewController2021}.
+
+      Using this design pattern allows us to separate out the contact data from the presentation of it, so we can build an interface in a more generic way.
+      Another benefit of using this pattern is that changing the user interface is trivial; a change is only required in the view layer.
+      One downside of this design is that writing the code becomes a more complex task, but it seems less complex the more familiar you get with the architecture.
+
+      \subsection{Implementation}
+      To begin with the implementation, let's take a look at the model layer code.
+
+      \lstinputlisting[
+         language=Python,
+         firstline=1,
+         lastline=40,
+         caption={Contact Book model layer}
+      label=contactModel]
+      {examples/chapter3/contacts/model.py}
+
+      The first two methods, \lstinline!init! and \lstinline!loadBook!, are basic and handle the creation of a database instance to use.
+      \lstinline!createBook! on line 21 is where the database operations actually start to occur.
+      This method creates a SQL statement on lines 26-31 that creates a new table in our database.
+      The table, identified by the name ``contacts'' contains fields that record the each contact's name, phone number, address, and email.
+      There is also a field \textbf{id} that is used to uniquely identify each contact in the database.
+      Look closely at the constraints provided for \textbf{name} and \textbf{phone}.
+      Both fields have a constraint, \textit{NOT NULL}.
+      The constraint \textit{NOT NULL} requires that the fields contain an actual value rather than \textit{NULL}, which is SQL's way of representing ``unknown'' \autocite{SQLiteSyntaxColumnconstraint}.
    \chapter{Professional Development}
    \label{chap:prof_devel}
       % Ways to improve your programming at a professional level
@@ -343,7 +385,7 @@
       In this section, we will explore a very simple example of an application developed with bad security in mind, and how you can easily get around a simple PIN mechanism.
 
       \subsection{Background and Challenge}
-      In order to follow along with this challenge, please download the 'password\_server.py' file from \url{https://github.com/evanrh/programmers-guide/examples/chapter4/}.
+      In order to follow along with this challenge, please download the 'password\_server.py' file from \url{https://github.com/evanrh/programmers-guide/tree/main/examples/chapter4}
       The idea for this example came from level 25 on OverTheWire.org in their 'Bandit' category \autocite{overthewireOverTheWireLevelGoal}.
       A brute force attack is a basic type of cyber attack that uses many repeating, successive attempts of passwords or other forms of authentication in order to get into a system \autocite{universityGrowingCybersecurityThreats2019}.
       These are very common amongst all forms of hackers, so it is important that an application keep them in mind.
