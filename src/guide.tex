@@ -6,13 +6,14 @@
 \usepackage{hyperref} % Hyperlinking and anchoring
 \usepackage[dvipsnames]{xcolor} % Better color options
 %\usepackage[Rejne]{fncychap} % Fancy chapter headers
-\usepackage{csvsimple} % CSV to table handling
+\usepackage{csvsimple} % CSV-to-table handling
 \usepackage{listings} % Sections for embedding formatted source code
 \usepackage{xcolor-solarized} % Better Python highlighting
 \usepackage{float} % Keep things in line
-\usepackage{tocbibind}
+\usepackage{tocbibind} % Put TOC in TOC
+\usepackage[toc,page]{appendix} % Better appendix titling
 
-% MLA Citations
+% IEEE Citations
 \usepackage[american]{babel}
 \usepackage{csquotes}
 \usepackage[
@@ -118,6 +119,8 @@
          \item Pointers and arrays
       \end{itemize}
 
+      Lastly, almost all of the examples provided by this guide will be written in Python, as it produces very brief and readable source code.
+      Please consult the appendix for 
    \newpage
    \pagenumbering{arabic}
 
@@ -125,7 +128,6 @@
    \label{chap:general}
       This chapter aims at helping you with programming in general.
       The examples and material here will help familiarize you with the environment that you will be working in.
-      If there are words, names, or concepts that you are not familiar with, please consult the \hyperref[chap:definitions]{Definitions} section for more information.
 
       \section{Paradigms}
          % Overview of language paradigms and some examples of what they look like
@@ -152,6 +154,7 @@
 
          The above example in C shows how an imperative style language works.
          The program executes each line sequentially, and the program's state is modified as it runs.
+
          \subsection{Object-Oriented}
          Object-oriented languages organize data and methods into 'objects' which is called ``encapsulation''.
          Objects interact with each other through methods that they list publicly to each other, and they are organized in hierarchies of inheritance \autocite{normarkOverviewFourMain}.
@@ -169,9 +172,13 @@
          label=ex:oop]
          {examples/chapter1/oop.py}
 
+         This example shows a simple object that has both a data member and a method.
+         On line 7, it begins running in an imperative style, but it also uses an object oriented approach to control the flow of the code.
+         On line 7, an instance of "HelloObject" is made and stored in \textit{a}, and the "hello" method is called upon a.
+
          \subsection{Functional}
          This paradigm treats code as a series of mathematical equations that are evaluated at run time.
-         Functional languages treat data as immutable, so the program's state cannot be modified at runtime as in the other paradigms \autocite{normarkOverviewFourMain}.
+         Functional languages treat data as immutable too, so the program's state cannot be modified at runtime as in the other paradigms \autocite{normarkOverviewFourMain}.
          Functions are also treated like data, and they can be passed as arguments to other functions.
 
          This approach produces code that is very safe to use, but it can take a much longer amount of time to write.
@@ -192,6 +199,15 @@
             caption={Functional code in Python},
          label=ex:functional]
          {examples/chapter1/functional.py}
+
+         The above example is very basic functional code written in Python.
+         The first line uses a list comprehension to create a list of numbers, from 0-19.
+         The second line ``maps'' a function over these numbers that produces a list of their squares.
+         Lastly, line 3 filters out all of the even numbers, leaving only the odd, and the resulting list is printed.
+
+         The code looks similar to the previous examples, but the main difference between this one and the others is that each variable does not change once it is created.
+         Notice, on each line, a new variable is declared that uses the value of another to compute its own.
+         This is strikingly different from the other two approaches, but it produces code that is much safer to run.
 
          There are more paradigms than just these three, but these are the most commonly seen ones.
 
@@ -339,10 +355,11 @@
       \subsection{Implementation}
       To begin with the implementation, let's take a look at the model layer code.
 
+      \subsubsection{Model Layer}
       \lstinputlisting[
          language=Python,
          firstline=1,
-         lastline=40,
+         lastline=41,
          caption={Contact Book model layer}
       label=contactModel]
       {examples/chapter3/contacts/model.py}
@@ -355,6 +372,80 @@
       Look closely at the constraints provided for \textbf{name} and \textbf{phone}.
       Both fields have a constraint, \textit{NOT NULL}.
       The constraint \textit{NOT NULL} requires that the fields contain an actual value rather than \textit{NULL}, which is SQL's way of representing ``unknown'' \autocite{SQLiteSyntaxColumnconstraint}.
+      Now that we've taken a look at the model layer in detail, let's take a look at the view layer to see how the user can interact with our program.
+
+      \subsubsection{View Layer}
+      The view layer handles all of the user input and output, so the code for it is rather simple.
+      Let's start by taking a look at the \lstinline!__init__! routine.
+
+      \lstinputlisting[
+         language=Python,
+         firstline=1,
+         lastline=16,
+         caption={View layer init routine},
+      label=viewInit]
+      {examples/chapter3/contacts/view.py}
+
+      Python contains a module \lstinline!argparse! that helps to create command line applications.
+      Since this example uses a command line interface, this will help us to create options that allow the user to manipulate the contact book's entries..
+      For example,  on line 9, we add an optional argument specified by either \textit{-a} or \textit{--add} that allows the user to enter a new contact into the book.
+      Similar actions can be seen on lines 11 and 13, where options are added to delete or update entries.
+      At the end of this function, the arguments are parsed from the command line when the program is run, and stored for later use.
+      Now, we'll see some examples of functions that help enforce the MVC model.
+
+      \lstinputlisting[
+         language=Python,
+         firstline=22,
+         lastline=39,
+         caption={More View Layer Routines}
+      label=viewRoutines]
+      {examples/chapter3/contacts/view.py}
+
+      In the MVC pattern, the view layer is responsible for all user input and output handling.
+      The layer does not need to worry about the validity of input, but it does need to worry about getting it.
+      The methods \lstinline!getCmd! and \lstinline!getInput! are examples of this pattern, as both of them return a form of user input.
+      Input comes either from the user's keyboard or from command line options.
+      Finally, \lstinline!show! handles all output to the user.
+      This method is very simple, but it shows the power of using the MVC pattern.
+      If you were to create a new view layer class in a different setting like the Web, you could implement a show method in the new class and then leave the rest of the code unmodified.
+      Restricting input and output to a certain layer separates out concerns of parts of the code in an efficient way.
+
+      Lastly, we will explore the controller layer, which handles passing of data between the view layer and model layer.
+
+      \subsubsection{Controller Layer}
+      The controller layer can be thought of as the ``brains'' of the model.
+      All logic and input validity are handled by this layer, which might seem counterintuitive at first.
+      As was mentioned previously, MVC does add complexity to a rather simple program, but it does allow for a program to be rewritten and managed flexibly.
+      Starting off, look at the \lstinline!__init__! routine of the class.
+      
+      \lstinputlisting[
+         language=Python,
+         firstline=4,
+         lastline=21,
+         caption={Controller init routine}
+      label=controllerInit]
+      {examples/chapter3/contacts/controller.py}
+
+      The controller needs instances of both the view and model layer to use.
+      Lines 3 and 4 create these instances for later use.
+      The next method of interest is \lstinline!run!, which is what the main program will call when it wants to hand control over to the controller.
+      It loads the database into the model, gets the input command, and decides which action to perform.
+
+      \lstinputlisting[
+         language=Python,
+         firstline=23,
+         lastline=38,
+         caption={Controller Adding a New Contact},
+      label=controllerAdd]
+      {examples/chapter3/contacts/controller.py}
+
+      Adding a user to the contact book is performed by \lstinline!_add!, and it shows how simple the controller layer can actually be.
+      Starting off on lines 2-5, strings to print to the user are created.
+      Since the controller layer should not handle any input or output, it calls the \lstinline!getInput! method of the view layer with each string.
+      The controller also handles the logic of determining if the required fields are valid or not on lines 8, 9, 11, and 12.
+      Finally, once the input is validated, the new contact information is passed to the model in order to be added to the database.
+
+      The other methods for deleting and updating are similar and only require a change of the input string and the invoked method of the model layer.
    \chapter{Professional Development}
    \label{chap:prof_devel}
       % Ways to improve your programming at a professional level
@@ -419,13 +510,14 @@
          An HTML version of the 12 Factor App spec can be found at \url{https://12factor.net}.
       }
 
-   \chapter*{Definitions}
-   \addcontentsline{toc}{chapter}{Definitions}
-   \label{chap:definitions}
-      As this guide contains information meant for learning new concepts, it is likely that you might not understand all of the terms and names.
-      This chapter will provide definitions for things that are mentioned in the guide.
-
+   \appendix
+   \begin{appendices}
+   \chapter{Running Example Code}
+   A minimal Python installation can be obtained from \url{https://www.python.org/downloads/}.
+   Once installed, you can either run the programs by opening a terminal and running, 'python file.py'.
+   Be sure to replace ``file.py'' by the name of the program you are attempting to run.
 \newpage
 \phantomsection
 \printbibliography[title={Works Cited},heading=bibintoc]
+   \end{appendices}
 \end{document}

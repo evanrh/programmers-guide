@@ -1,6 +1,8 @@
 # User defined
 output/
 __pycache__/
+*.db
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
