@@ -309,7 +309,7 @@
          This problem requires the programmer to use a subset of the Fibonacci sequence in order to find the result.
          A naïve solution would be to generate a list of all Fibonacci numbers less than \textit{num} and filter out the odd numbers.
          A better approach is to accumulate the odd numbers as you generate all Fibonacci numbers less than \textit{num}.
-         The below example in Listings \ref{fibNums} shows an example of the second algorithm in Javascript.
+         The below example in Listing \ref{fibNums} shows an example of the second algorithm in Javascript.
 
          \lstinputlisting[
             language=JavaScript,
@@ -327,7 +327,7 @@
    \label{chap:practical}
       % Get some ideas from Al Sweisgart's 'Automate the Boring Stuff'
       In this chapter, you will be guided through programming in a useful manner.
-      The examples used in this chapter will focus on practical applications of programming that you can find use of at work or home.
+      The example in this chapter details a useful and prevalent design pattern, basic database usage, and a simple construction of a command line interface.
 
       \section{Command Line Contact Book}
       Contact applications are ubiquitous amongst our devices, but there are not many for command line use.
@@ -454,6 +454,7 @@
       Programming is a skill in high demand that can lead to many different high paying careers (see Table \ref*{table:jobs}).
       Learning to develop yourself professionally requires learning about the tools that are available to you, as well as learning programming.
       In this chapter, we will cover API usage with a fun, RESTful API, basic security, and some information on current technology.
+      For example code, please refer to \url{https://github.com/evanrh/programmers-guide/tree/main/examples/chapter4}.
       \begin{table}[H]
          \csvreader[
             respect all,
@@ -491,12 +492,82 @@
 
       This very basic application takes a string and compares it to a known password and PIN combination.
       It will then either send the client a message saying ``Wrong!'' if the combination is wrong, or ``Correct!'' with a new password as the output.
+      The logic of determining whether or not the password and PIN combination is correct occurs on line 28.
+      There isn't anything seemingly wrong with this logic, but it does have one big issue: there is no lockout for entering a wrong password too many times.
+
+      Since there is no lockout mechanism, a client can attempt as many password and PIN combinations as they want to.
+      There are also a finite number of PIN numbers that can be tried, since the password is known.
+      The PIN is a 4 digit number, so there are only 10000 possible PINs to try, which is a very small number.
+      It is a trivial to overcome this security as a result.
+      Now, let's take a look at a client program that can exploit this vulnerability.
+      \subsection{Breaking the Security}
+
+      \lstinputlisting[
+         language=Python,
+         firstline=1,
+         lastline=34,
+         caption={Brute Forcing the Unsecure Server},
+      label=bfClient]
+      {examples/chapter4/client.py}
+
+      Beginning on line 4, our client object will open a connection to the specified server and capture its welcome message.
+      Then, on line 14, \lstinline!try_pin! attempts a pin combination with the password, and checks the message from the server to see if it worked.
+      It returns whether or not the combination did work.
+      Now, let's look at \lstinline!main! on line 25.
+
+      A client is created on line 26 with the address and port of a locally running server.
+      It also passes in the known password to the client object.
+      On line 28, a loop begins that will create all of the PINs between 0000 and 9999.
+      This loop will continue until the \lstinline!try_pin! method returns ``True.''
+      Once it does, the client will print the correct PIN and stop.
+      Otherwise, it prints out ``Wrong PIN:'' and the wrong PIN.
+      Then, it continues to the next PIN.
       \section{API Usage}
       APIs or 'Application Programming Interfaces' are publicly exposed methods for accessing someone else's system.
       REST, which stands for 'REpresentational State Transfer' is a design pattern that allows responses between a client and server to remain stateless and consistently defined \autocite{hallettPokeAPI}.
       The API being used for this chapter is called 'PokeAPI', and it is used to provide a programmatic interface to information regarding Pokémon.
       While not inherently useful on its own for our purposes, this API will help show you how many APIs across the web structure themselves.
       Knowledge of one RESTful API will lead to easier access to any others you come across while coding.
+
+      PokeAPI provides varying information about Pokémon and the games and media they appear in.
+      Our example is going to show how you can get information about a single Pokémon using Python's \lstinline!requests! library.
+      This library will enable us to get the data easily and create a simple client for grabbing the information we want.
+
+      \lstinputlisting[
+         language=Python,
+         caption={Small PokeAPI Client},
+      label=apiClient]
+      {examples/chapter4/api_client.py}
+
+      Listing \ref{apiClient} shows a very basic script to grab data related to the Pokémon Pikachu.
+      The \lstinline!query! method on line 5 uses the \lstinline!requests! library mentioned previously to open an HTTP connection to PokeAPI.
+      It uses a GET method, as indicated by the \lstinline!requests.get()! on line 8, and it checks to see if the response was good.
+      HTTP uses response codes to indicate the result of an interaction with a server, and a response code of 200 indicates a successful interaction \autocite{mozillaHTTPResponseStatus}.
+      Upon a successful request, the response is returned to the calling code as a JSON object.
+      
+      Below the \lstinline!query! method is where the decoding of the response occurs.
+      We are interested in getting the Pokemon's name, a short description, and a URL for a sprite image.
+      According to the API documentation, the response at the \textit{pokemon-species} endpoint we are using returns an object that contains fields for a name, flavor text, varieties, and some other fields we are not interested in \autocite{hallettPokeAPI}.
+      Getting the name from this object is straightforward, we can access it by using the index, 'name' on the \textit{pikachu} variable, as seen on line 23.
+      The other information requires reading the documentation for the returned object a little further.
+
+      The returned object contains a field, \textit{flavor\_text\_entries} that is a list of flavor text that this Pokemon has had across all of the games.
+      We can retrieve flavor text from this list, but we need to filter it first.
+      This list contains flavor text from all languages from every game that the Pokemon appears in.
+      Each entry contains a \textit{language} field, which in turn has a \textit{name} field that denotes the actual language of the entry.
+      We can use this to filter the entries, which is the action being performed on line 16 to \textit{desc\_links}.
+
+      Finally, we can get the sprite link from the returned Pokemon.
+      The object we currently have does not have any direct links to sprite data, but it does have a list of links to other endpoints that do.
+      The \textit{varieties} field of \textit{pikachu} has this list, and we'll use the first one at index 0 for this case.
+      This field has a field \textit{pokemon} with a subfield \textit{url} that contains the URL we are interested in.
+      It points to the \textit{pokemon} endpoint, which has sprite data for our Pokemon.
+      On lines 20 and 21, we perform another query to this new endpoint, and grab the sprite data from the newly returned object.
+
+      Listing \ref{apiClient} shows basic usage of an API endpoint, which would be needed to build a more complex application.
+      The flow of this example program is very similar to larger scale applications, and it could be applied to one.
+      The most important part of writing applications that deal with APIs is understanding the documentation well.
+      This helps to ensure that you know how to perform actions in an efficient manner, and it helps in knowing the scope of the API as well.
 
       \section{Current Technology and Practices}
       Software development has taken to a new domain in the past 20 years.
@@ -509,6 +580,39 @@
       \footnotetext{
          An HTML version of the 12 Factor App spec can be found at \url{https://12factor.net}.
       }
+
+      \subsection{Tenet II: Depedencies}
+      ``Explicitly declare and isolate dependencies \autocite{wigginsTwelveFactorApp2017}.''
+      Dependency issues occur more in larger applications than small ones, but it is always important to explicitly state what an application needs to run.
+      As development teams get larger, this is even more so important, because everyone does not develop in the same environment.
+      It also helps for automating releases onto production machines, because you can automate the installation of dependencies if they are declared beforehand.
+
+      \subsection{Tenet III: Config}
+      ``Store config in the environment \autocite{wigginsTwelveFactorApp2017}.''
+      Configuration can change over time, and it can vary across different machines.
+      Newer developers tend to store configuration in the source code, which is not only inflexible, but it is also unsecure.
+      Keeping it separate from the code ensures that the application can run on any machine with any credentials or setup.
+
+      \subsection{Tenet X: Dev/prod parity}
+      ``Keep development, staging, and production as similar as possible \autocite{wigginsTwelveFactorApp2017}.''
+      Keeping the development and production environments as similar as possible ensures the maximum amount of compatibility between them.
+      Developers can often forget to add packages to configurations or might not run their code on the same machine as production.
+      This can lead to issues down the line that can be hard to track down.
+
+      \section{Summary}
+      The \textit{12 Factor App} is a great set of guidelines for building a webapp, but it is not necessarily great for all application use cases.
+      Building applications for other domains may required configuration to be built into the code.
+      Always take care to assess the needs of your software before deciding on the implementation.
+
+      \chapter{Final Thoughts}
+      Programming is a skillset that you should always be growing.
+      New technology gets created frequently, so it is important to keep up with the trends.
+      This guide should be a good place to get started, but you should not consider it the only resource.
+
+      By now, you should have some exposure to critical thinking with algorithms, programming pragmatically, and what current technology you can leverage in your software.
+      This is a good overview on what a more experienced programmer should be familiar with, and you should have a good amount of knowledge to continue learning on your own.
+      Thank you for taking the time to read this guide.
+      I hope it has helped you to sharpen your programming skills to a satisfatory point.
 
    \appendix
    \begin{appendices}
