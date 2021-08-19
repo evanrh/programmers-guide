@@ -14,5 +14,6 @@ docker run -it \
    -v $PWD/$OUTDIR:/$OUTDIR \
    -v $PWD/Makefile:/Makefile \
    -v $PWD/examples:/examples \
-   -u $USERID:$GROUPID\
+   -u $USERID:$GROUPID \
+   --rm \
    texlive/texlive \
